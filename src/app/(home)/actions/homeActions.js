@@ -10,5 +10,17 @@ export async function postMessage(messageState, messageData) {
         };
     }
 
-    return messageState ? [...messageState, message] : [message];
+    // Initialize messageState if it's null or undefined
+    if (!messageState) {
+        messageState = [];
+    }
+
+    if (!messageState.error) {
+        messageState = [...messageState, message];
+    } else {
+        messageState = [];
+        messageState.push(message);
+    }
+
+    return messageState;
 }
