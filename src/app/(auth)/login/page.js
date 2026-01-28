@@ -1,13 +1,19 @@
+import Link from 'next/link'
 import { login, signup } from '../actions/actions'
+import { HiArrowSmLeft } from "react-icons/hi";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="card w-96 bg-base-300 shadow-xl">
+    <div className="flex min-h-screen items-center justify-center bg-base-200">
+      <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title">Login</h2>
+          <div className='flex flex-row justify-between items-center'>
+            <Link href="/"><HiArrowSmLeft className='text-2xl'/></Link>
+            <h2 className="card-title">Login</h2>
+            <div className='w-6'></div>
+          </div>
           <form>
-            <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-4 mt-3'>
               <label className="input validator">
                 <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <g
@@ -61,11 +67,12 @@ export default function LoginPage() {
               <p className="validator-hint hidden">
                 Must be more than 8 characters
               </p>
+              <p>Still not registered? <Link href="/signup" className='text-gray-400 underline'>Sign up</Link></p>
             </div>
             <div className="card-actions justify-end">
               <button
                 type="submit"
-                className="btn btn-primary mt-4"
+                className="btn btn-primary"
                 formAction={login}
               >
                 Login
