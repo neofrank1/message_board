@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { createClient } from '@/lib/supabase/server'
 
-export default function AppHeader() {
-
-    const isAuth = false;
+export default async function AppHeader() {
+    const supabase = await createClient()
+    const isAuth = await supabase.auth.getUser().then(res => !!res.data.user);
 
   return (
     <div className="drawer">
@@ -28,21 +29,33 @@ export default function AppHeader() {
                     </label>
                 </div>
                 <div className="mx-2 flex-1 px-2 text-2xl font-bold">
-                    <Link href="/">
-                        Message Board
-                    </Link>
+                    {isAuth ? (
+                        <Link href="/Home">
+                            Message Board
+                        </Link>
+                    ) : (
+                        <Link href="/">
+                            Message Board
+                        </Link>
+                    )}
                 </div>
                 <div className="hidden flex-none lg:block">
                     <ul className="menu menu-horizontal">
                     {/* Navbar menu content here */}
                     {isAuth ? (
                         <>
-                            <li><a>Logout</a></li>
+                            <li>
+                                <form action="/signout" method="post">
+                                    <button className="button block" type="submit">
+                                        Sign out
+                                    </button>
+                                </form>
+                            </li>
                         </>
                     ) : (
                         <>
-                            <li><a>Login</a></li>
-                            <li><a>Register</a></li>
+                            <li><Link href="/login">Login</Link></li>
+                            <li><Link href="/signup">Sign Up</Link></li>
                         </>
                     )}
                     </ul>
@@ -53,8 +66,16 @@ export default function AppHeader() {
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
         <ul className="menu bg-base-200 min-h-full w-80 p-4">
             {/* Sidebar content here */}
-            <li><a>Login</a></li>
-            <li><a>Register</a></li>
+                {isAuth ? (
+                    <>
+                        <li><a>Logout</a></li>
+                    </>
+                ) : (
+                    <>
+                        <li><Link href="/login">Login</Link></li>
+                        <li><Link href="/signup">Sign Up</Link></li>
+                    </>
+                )}
         </ul>
     </div>
     </div>
