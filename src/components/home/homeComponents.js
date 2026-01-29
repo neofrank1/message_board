@@ -2,12 +2,15 @@
 
 import React from "react";
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { postMessage } from "@/app/(home)/actions/homeActions";
 import { HiOutlineThumbUp, HiOutlineUserGroup, HiOutlineNewspaper, HiOutlineChat } from "react-icons/hi";
 
-export default function HomeComponents() {
+export default function HomeComponents({userData, account}) {
     const [message, messageAction, isPending] = useActionState(postMessage, null);
     const [likes, setLikes] = useState(false);
+
+    console.log(userData);
 
     const handleLike = () => {
         if (likes) {
@@ -103,7 +106,7 @@ export default function HomeComponents() {
                                     </div>
                                 </div>
                                 <div className="col-span-2">
-                                    <h3 className="text-2xl font-bold text-left">Neo Frank Uy</h3>
+                                    <h3 className="text-2xl font-bold text-left"><Link href={`/account/${userData.id}`}>{account?.first_name} {account?.middle_name} {account?.last_name}</Link></h3>
                                     <p className="text-sm text-justify text-gray-500">Full Stack Developer</p>
                                 </div>
                             </div>
